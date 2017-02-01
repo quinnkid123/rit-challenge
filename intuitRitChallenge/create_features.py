@@ -54,12 +54,29 @@ def calculate_features(account):
     # in the real world, this is unlikely to be true
     feature = Features()
     feature.owner = account
-    feature.income = income / 2
+    feature.salary = income / 2
     feature.spending = spending / 2
     feature.first_top_purchase = first
     feature.second_top_purchase = second
     feature.third_top_purchase = third
 
+    feature.save()
+
+
+def calculate_salary(account):
+    """
+    This script can be used to just calculate the salaries of the
+    accounts in the database
+    :param account: a given account in the database
+    :return: void
+    """
+    income, spending = 0, 0
+    for transaction in Transaction.objects.filter(owner=account):
+        if transaction.amount > 0:
+            income += transaction.amount
+
+    feature = Features.objects.filter(owner=account)[0]
+    feature.salary = income / 2
     feature.save()
 
 
@@ -70,7 +87,7 @@ def iterate_all_users():
     """
     for account in Account.objects.all():
         print(account)
-        calculate_features(account)
+        calculate_salary(account)
 
 
 print("Starting script...")
