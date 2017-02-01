@@ -11,6 +11,12 @@ folder_name = 'transaction-data'
 
 
 def convert_date(date):
+    """
+    Found a bug where transactions were listed as invalid dates,
+    this method is to correct those entries
+    :param date: incorrect/invalid dates
+    :return: a corrected date
+    """
     mdy = date.split("/")
     if mdy[1] == "32":
         mdy[1] = "31"
@@ -18,6 +24,11 @@ def convert_date(date):
 
 
 def import_data():
+    """
+    This function is used to used to import the csv data in the files to
+    their corresponding models in the database
+    :return: void
+    """
     for filename in os.listdir(folder_name):
         if filename.endswith(".csv"):
             print(filename)
@@ -32,6 +43,7 @@ def import_data():
                         # Set the user's auth id for each file
                         account = Account()
                         account.auth_id = int(row[0])
+                        account.save()
                     transaction = Transaction()
                     transaction.owner = account
                     transaction.date = convert_date(row[1])
@@ -42,6 +54,31 @@ def import_data():
 
             file.close()
 
+
+def add_accounts():
+    """
+    The method can be used to only add the accounts to the database,
+    without adding the transaction data
+    :return:
+    """
+    for filename in os.listdir(folder_name):
+        if filename.endswith(".csv"):
+            print(filename)
+            file = open(folder_name + "/" + filename)
+            data_reader = csv.reader(file)
+            account = None
+
+            for row in data_reader:
+                if row[0] != 'auth_id':  # Ignore the header row, import everything else
+                    if not account:
+                        # Set the user's auth id for each file
+                        account = Account()
+                        account.auth_id = int(row[0])
+                        account.save()
+                    else:
+                        break
+
+
 print("Starting script...")
-import_data()
+add_accounts()
 print("Script completed.")

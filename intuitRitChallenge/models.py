@@ -4,6 +4,12 @@ from django.db import models
 class Account(models.Model):
     auth_id = models.IntegerField(primary_key=True)
 
+    def __str__(self):
+        return "User: {}".format(self.auth_id)
+
+    def __repr__(self):
+        return self.__str__()
+
 
 class Transaction(models.Model):
     owner = models.ForeignKey(Account, default=1)
@@ -11,6 +17,9 @@ class Transaction(models.Model):
     vendor = models.CharField(max_length=50, default='None')
     amount = models.DecimalField(decimal_places=2, default=0, max_digits=10)
     location = models.CharField(default='None', max_length=2)
+
+    def __str__(self):
+        return str(self.owner_auth_id) + ": " + str(self.vendor)
 
 
 class Features(models.Model):
