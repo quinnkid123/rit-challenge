@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from intuitRitChallenge import models
-from django.http import JsonResponse
+from intuitRitChallenge.models import *
+from django.http import JsonResponse, HttpRequest
 from django.core.serializers import serialize
 
 
@@ -13,7 +13,9 @@ def charts(request):
 
 
 def tables(request):
-    transactions = api_transactions(request)
+    get_request = HttpRequest()
+    get_request.GET = {'account': "72851"}  # TODO don't hard code this
+    transactions = api_transactions(get_request)
     return render(request, 'tables.html', {'view': "tables", 'data': transactions})
 
 
@@ -25,9 +27,29 @@ def api_transactions(request):
         except KeyError:
             account = ""
 
-        transactions = serialize("json", models.Transaction.objects.filter(owner=account))
+        transactions = Transaction.objects.filter(owner=int(account))
+        json = []
+        for transaction in transactions:
+            json.append({
+                'date': transaction.date,
+                'vendor': transaction.vendor,
+                'amount': transaction.amount
+            })
 
-    return JsonResponse(transactions)
+    return transactions
+
+
+def api_features(request):
+    features = "{'id': \"No data found\"}"
+    if request.method == "GET":
+        try:
+            account = request.GET["account"]
+        except KeyError:
+            account = ""
+
+        features = serialize("json", Features.objects.filter(owner=account))
+
+    return JsonResponse(features)
 
 
 def not_found(request):
