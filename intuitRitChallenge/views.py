@@ -27,7 +27,7 @@ def api_transactions(request):
         except KeyError:
             account = ""
 
-        transactions = Transaction.objects.filter(owner=int(account))
+        transactions = Transactions.objects.filter(owner=int(account))
         json = []
         for transaction in transactions:
             json.append({

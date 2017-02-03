@@ -1,7 +1,7 @@
 import csv
 import os
 
-from intuitRitChallenge.models import Accounts, Transaction
+from intuitRitChallenge.models import Accounts, Transactions
 
 # TODO: Only run this script when files have changes
 
@@ -44,7 +44,7 @@ def import_data():
                         account = Accounts()
                         account.auth_id = int(row[0])
                         account.save()
-                    transaction = Transaction()
+                    transaction = Transactions()
                     transaction.owner = account
                     transaction.date = convert_date(row[1])
                     transaction.vendor = row[2]

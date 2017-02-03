@@ -1,4 +1,4 @@
-from intuitRitChallenge.models import Accounts, Transaction
+from intuitRitChallenge.models import Accounts, Transactions
 import numpy as np
 from scipy.sparse import csr_matrix
 import matplotlib.pyplot as plt
@@ -11,7 +11,7 @@ vendor_to_id = {}
 i = 0
 
 for user in Accounts.objects.all():
-    for transaction in Transaction.objects.filter(owner=user):
+    for transaction in Transactions.objects.filter(owner=user):
         if transaction.vendor not in vendor_to_id:
             vendor_to_id[transaction.vendor] = len(vendor_to_id)
         account_ids.append(i)

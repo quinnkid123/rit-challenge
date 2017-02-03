@@ -11,7 +11,7 @@ class Accounts(models.Model):
         return self.__str__()
 
 
-class Transaction(models.Model):
+class Transactions(models.Model):
     owner = models.ForeignKey(Accounts, default=1)
     date = models.DateField()
     vendor = models.CharField(max_length=50, default='None')
@@ -30,4 +30,7 @@ class Features(models.Model):
     second_top_purchase = models.CharField(default='None', max_length=50)
     third_top_purchase = models.CharField(default='None', max_length=50)
 
+
+class Vendors(models.Model):
+    name = models.CharField(max_length=50, default='None')
 

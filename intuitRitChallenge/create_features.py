@@ -1,4 +1,4 @@
-from intuitRitChallenge.models import Accounts, Transaction, Features
+from intuitRitChallenge.models import Accounts, Transactions, Features
 
 
 def calculate_top_purchases(common_purchases):
@@ -36,7 +36,7 @@ def calculate_features(account):
     """
     common_purchases = {}
     income, spending = 0, 0
-    for transaction in Transaction.objects.filter(owner=account):
+    for transaction in Transactions.objects.filter(owner=account):
         if transaction.amount > 0:
             income += transaction.amount
         else:
@@ -69,7 +69,7 @@ def calculate_salary(account):
     :return: void
     """
     income, spending = 0, 0
-    for transaction in Transaction.objects.filter(owner=account):
+    for transaction in Transactions.objects.filter(owner=account):
         if transaction.amount > 0:
             income += transaction.amount
 
