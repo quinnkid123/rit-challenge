@@ -1,6 +1,4 @@
-
-
-from intuitRitChallenge.models import Account, Transaction, Features
+from intuitRitChallenge.models import Accounts, Transaction, Features
 
 
 def calculate_top_purchases(common_purchases):
@@ -85,7 +83,7 @@ def iterate_all_users():
     Iterate of all of the accounts currently in the database
     :return: void
     """
-    for account in Account.objects.all():
+    for account in Accounts.objects.all():
         print(account)
         calculate_salary(account)
 

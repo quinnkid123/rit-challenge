@@ -1,7 +1,7 @@
 import csv
 import os
 
-from intuitRitChallenge.models import Account, Transaction
+from intuitRitChallenge.models import Accounts, Transaction
 
 # TODO: Only run this script when files have changes
 
@@ -41,7 +41,7 @@ def import_data():
                 if row[0] != 'auth_id':  # Ignore the header row, import everything else
                     if not account:
                         # Set the user's auth id for each file
-                        account = Account()
+                        account = Accounts()
                         account.auth_id = int(row[0])
                         account.save()
                     transaction = Transaction()
@@ -72,7 +72,7 @@ def add_accounts():
                 if row[0] != 'auth_id':  # Ignore the header row, import everything else
                     if not account:
                         # Set the user's auth id for each file
-                        account = Account()
+                        account = Accounts()
                         account.auth_id = int(row[0])
                         account.save()
                     else:
