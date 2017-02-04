@@ -18,6 +18,12 @@ class Vendors(models.Model):
     # Can help determine how distinct of a feature this purchase implies
     number_of_buyers = models.IntegerField(default=0)
 
+    def __str__(self):
+        return "Vendor: " + str(self.name)
+
+    def __repr__(self):
+        return self.__str__()
+
 
 class Transactions(models.Model):
     owner = models.ForeignKey(Accounts, default=1)
@@ -29,6 +35,9 @@ class Transactions(models.Model):
 
     def __str__(self):
         return str(self.owner_auth_id) + ": " + str(self.vendor)
+
+    def __repr__(self):
+        return self.__str__()
 
 
 class Features(models.Model):
@@ -45,4 +54,11 @@ class Features(models.Model):
     has_child = models.BooleanField(default=False)
     is_sports_fan = models.BooleanField(default=False)
     was_recently_divorced = models.BooleanField(default=False)
+    favorite_restaurant = models.CharField(max_length=50, default='None')
+
+    def __str__(self):
+        return "Features: " + str(self.owner)
+
+    def __repr__(self):
+        return self.__str__()
 

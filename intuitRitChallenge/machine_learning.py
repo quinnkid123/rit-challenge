@@ -1,3 +1,10 @@
+"""
+This script was used as a scratch board for using scikit-learn's machine learning algorithms.
+Unfortunately I was not able to pick out an algorithm and data format that produced meaningful results.
+This script may not be currently functioning.
+"""
+
+
 ####################################################################################################
 #   References:                                                                                    #
 #   Dorin Comaniciu and Peter Meer, “Mean Shift: A robust approach toward feature space analysis”. #

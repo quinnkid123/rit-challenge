@@ -1,3 +1,9 @@
+"""
+This script was used as a scratch board for organizing the data in ways that I thought may be useful for machine
+learning. It may not be currently functioning.
+"""
+
+
 from intuitRitChallenge.models import Accounts, Transactions
 import numpy as np
 from scipy.sparse import csr_matrix
