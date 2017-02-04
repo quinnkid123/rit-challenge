@@ -13,10 +13,21 @@ def charts(request):
 
 
 def tables(request):
-    get_request = HttpRequest()
-    get_request.GET = {'account': "72851"}  # TODO don't hard code this
-    transactions = api_transactions(get_request)
+    transactions = api_transactions(request, 72851)
     return render(request, 'tables.html', {'view': "tables", 'data': transactions})
+
+
+def api_accounts(request):
+    json_data = {}
+    i = 0
+    if request.method == "GET":
+
+        accounts = Accounts.objects.all()
+        for account in accounts:
+            json_data['account {}'.format(i)] = str(account.auth_id)
+            i += 1
+
+    return JsonResponse(json_data)
 
 
 def api_transactions(request, account):
@@ -33,7 +44,6 @@ def api_transactions(request, account):
                 'amount': str(transaction.amount)
             })
 
-        # json_data = json.dumps(json_data)
     return JsonResponse(json_data, safe=False)
 
 
