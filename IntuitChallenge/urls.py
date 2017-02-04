@@ -19,6 +19,10 @@ from intuitRitChallenge import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^api/accounts', views.api_accounts),  # api/accounts
+    url(r'^api/transactions/(?P<account>\d+)', views.api_transactions),  # api/transactions/624
+    url(r'^api/features/(?P<account>\d+)', views.api_features),  # api/features/624
+    url(r'^api/matchmaker/(?P<account>\d+)/(?P<match>\d+)', views.api_matchmaker),  # api/matchmaker/624/1882
     url(r'^charts', views.charts),
     url(r'^tables', views.tables),
     url(r'^.+', views.not_found),
