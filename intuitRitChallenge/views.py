@@ -2,6 +2,7 @@ from django.shortcuts import render
 from intuitRitChallenge.models import *
 from django.http import JsonResponse
 import decimal
+import json
 
 
 def home_screen(request):
@@ -17,7 +18,8 @@ def charts(request, account=None):
 
 def tables(request, account=None):
     if account:
-        data = api_transactions(request, account)
+        data = json.dumps(get_transactions(account))
+        print(data)
         return render(request, 'tables.html', {'view': "tables", 'data': data})
     return render(request, 'tables.html', {'view': "tables"})
 
@@ -45,18 +47,24 @@ def api_accounts(request):
 def api_transactions(request, account):
     json_data = []
     if request.method == "GET":
-
-        user_id = account
-
-        transactions = Transactions.objects.filter(owner=user_id)
-        for transaction in transactions:
-            json_data.append({
-                'date': str(transaction.date),
-                'vendor': transaction.vendor,
-                'amount': str(transaction.amount)
-            })
+        json_data = get_transactions(account)
 
     return JsonResponse(json_data, safe=False)
+
+
+def get_transactions(account):
+    json_data = []
+    user_id = account
+
+    transactions = Transactions.objects.filter(owner=user_id)
+    for transaction in transactions:
+        json_data.append({
+            'date': str(transaction.date),
+            'vendor': transaction.vendor,
+            'amount': str(transaction.amount)
+        })
+
+    return json_data
 
 
 def api_features(request, account):
