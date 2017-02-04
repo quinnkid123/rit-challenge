@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from intuitRitChallenge.models import *
-from django.http import JsonResponse, HttpRequest
+from django.http import JsonResponse
 import decimal
 
 
@@ -22,10 +22,10 @@ def tables(request, account=None):
     return render(request, 'tables.html', {'view': "tables"})
 
 
-def match(request, account=None, other=None):
+def matchmaker(request, account=None, other=None):
     if account and other:
-        data = api_matchmaker(request, account, other)
-        return render(request, 'matchmaker.html', {'view': "matchmaker", 'score': str(data)})
+        data = cupid(account, other)
+        return render(request, 'matchmaker.html', {'view': "matchmaker", 'data': str(data)})
     return render(request, 'matchmaker.html', {'view': "matchmaker"})
 
 
@@ -82,6 +82,14 @@ def api_features(request, account):
     return JsonResponse(json_data)
 
 
+def api_matchmaker(request, account, match):
+    json_data = {}
+    if request.method == "GET":
+        json_data = cupid(account, match)
+
+    return JsonResponse(json_data)
+
+
 def cupid(soul, mate):
     """
     The ultimate matchmaking algorithm
@@ -120,20 +128,15 @@ def cupid(soul, mate):
             percent_match += ratio
             count += 1
 
-    return percent_match / count  # find the average vendor interest ratio
+    score = percent_match / count  # find the average vendor interest ratio
 
+    json_data = {
+        "account": soul,
+        "match": mate,
+        "score": str(score)
+    }
 
-def api_matchmaker(request, account, match):
-    json_data = {}
-    if request.method == "GET":
-        score = cupid(account, match)
-        json_data = {
-            "account": account,
-            "match": match,
-            "score": str(score)
-        }
-
-    return JsonResponse(json_data)
+    return json_data
 
 
 def not_found(request):
