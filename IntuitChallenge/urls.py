@@ -23,6 +23,10 @@ urlpatterns = [
     url(r'^api/transactions/(?P<account>\d+)', views.api_transactions),  # api/transactions/624
     url(r'^api/features/(?P<account>\d+)', views.api_features),  # api/features/624
     url(r'^api/matchmaker/(?P<account>\d+)/(?P<match>\d+)', views.api_matchmaker),  # api/matchmaker/624/1882
+    url(r'^matchmaker/(?P<account>\d+)/(?P<other>\d+)', views.match),  # matchmaker/624/1882
+    url(r'^matchmaker', views.match),
+    url(r'^charts/(?P<account>\d+)', views.charts),
+    url(r'^tables/(?P<account>\d+)', views.tables),
     url(r'^charts', views.charts),
     url(r'^tables', views.tables),
     url(r'^.+', views.not_found),

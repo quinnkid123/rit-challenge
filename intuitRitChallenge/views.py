@@ -8,13 +8,25 @@ def home_screen(request):
     return render(request, 'charts.html', {'view': "charts"})
 
 
-def charts(request):
+def charts(request, account=None):
+    if account:
+        data = api_transactions(request, account)
+        return render(request, 'charts.html', {'view': "charts", 'data': data})
     return render(request, 'charts.html', {'view': "charts"})
 
 
-def tables(request):
-    transactions = api_transactions(request, 72851)
-    return render(request, 'tables.html', {'view': "tables", 'data': transactions})
+def tables(request, account=None):
+    if account:
+        data = api_transactions(request, account)
+        return render(request, 'tables.html', {'view': "tables", 'data': data})
+    return render(request, 'tables.html', {'view': "tables"})
+
+
+def match(request, account=None, other=None):
+    if account and other:
+        data = api_matchmaker(request, account, other)
+        return render(request, 'matchmaker.html', {'view': "matchmaker", 'score': str(data)})
+    return render(request, 'matchmaker.html', {'view': "matchmaker"})
 
 
 def api_accounts(request):
